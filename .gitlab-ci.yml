@@ -4,6 +4,7 @@ env:
   stage: .pre
   script:
     - >
+        whoami
         echo ${TARGET_ENV}
         .
   tags: 
