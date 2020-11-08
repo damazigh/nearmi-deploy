@@ -4,6 +4,7 @@ env:
   stage: .pre
   script:
     - >
+        echo ${TARGET_ENV};
         if [[ -z "${TARGET_ENV}" || "dev" = ${TARGET_ENV} ]];
           then export ENV_FILE='.env.dev';
           echo 'hi hi hi';
