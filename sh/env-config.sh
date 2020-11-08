@@ -10,7 +10,6 @@ function create_config_if_needed() {
   if [[ ! -f ${cfg_file_path} ]];
     then echo "file not found "$cfg_file_path" - creating it ...";
          touch ${cfg_file_path};
-         ls 
          chmod +x ${cfg_file_path};
   fi
   echo "exporting config file "${cfg_file_path};
@@ -32,7 +31,9 @@ function copy_config() {
   svc=$1;
   file=$2;
   
-  cd $3; 
+  cd $3;
+  echo ${pwd}
+  pwd
   if [[ -z ${svc} || -z ${file} ]];
     then echo 'ERR - both service and file are required';
     exit -1;
@@ -40,7 +41,7 @@ function copy_config() {
     then echo "file '"${file}"' doesn't exists";
     exit -1;
   else
-    echo "create file if not exist...";
+    echo "Copying configuration for service - "${svc}", file - "${file};
     create_config_if_needed;
     echo "append configuration";
     put_config ${file};
