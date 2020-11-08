@@ -7,7 +7,7 @@ env:
         echo ${TARGET_ENV}
         .
 auth:
-  stage: deply
+  stage: deploy
   script:
     - echo "Starting authentication services..."
     - ls -lart
