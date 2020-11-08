@@ -1,0 +1,16 @@
+stages:
+  - deploy
+env:
+  stage: .pre
+  script:
+    - >
+        echo ${TARGET_ENV}
+        .
+auth:
+  stage: deply
+  script:
+    - echo "Starting authentication services..."
+    - ls -lart
+    - docker-compose -f ./keycloak/auth-dev.yml up
+    
+  
