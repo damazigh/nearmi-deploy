@@ -6,6 +6,7 @@ env:
     - >
         if [[ -z "${TARGET_ENV}" || "dev" = ${TARGET_ENV} ]];
           then export ENV_FILE='.env.dev';
+          echo 'hi hi hi';
         else
           export ENV_FILE='.env';
         fi
