@@ -3,7 +3,7 @@ stages:
 env:
   stage: .pre
   script:
-    - >
+    - |
         ### include env shell
         . ./sh/env-config.sh;
         ### MAIN Config shell
