@@ -9,7 +9,6 @@ env:
         else
           export ENV_FILE='.env';
         fi
-        .
   tags: 
     - shell
 auth:
