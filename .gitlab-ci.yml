@@ -9,13 +9,13 @@ env:
         else
           export ENV_FILE='.env';
         fi
-        echo 'using file '${ENV_FILE}' as variable file...';
         .
   tags: 
     - shell
 auth:
   stage: deploy
   script:
+    - echo 'using file '${ENV_FILE}' as variable file...'
     - echo "Starting authentication services..."
     - ls -lart
     - docker-compose -f ./keycloak/auth-dev.yml --env-file=${ENV_FILE} up
