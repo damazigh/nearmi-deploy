@@ -7,10 +7,11 @@ env:
         ### function that creates config
         ### check if file exits if not create it and add 'x' privilege on it
         function create_config_if_needed() {
-          cfg_file_path="../config";
+          cfg_file_path="./config";
           if [[ ! -f ${cfg_file_path} ]];
             then echo "file not found "$cfg_file_path" - creating it ...";
                  touch ${cfg_file_path};
+                 echo 'après touch';
                  chmod +x ${cfg_file_path};
           fi
           export CONFIG_FILE=${cfg_file_path};
@@ -33,7 +34,8 @@ env:
           svc=$1;
           file=$2;
           
-          cd $3; 
+          cd $3;
+          echo $pwd;
           if [[ -z ${svc} || -z ${file} ]];
             then echo 'ERR - both service and file are required';
             exit -1;
