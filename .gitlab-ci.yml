@@ -7,9 +7,9 @@ env:
         if [[ -z "${TARGET_ENV}" || "dev" = ${TARGET_ENV} ]];
           then export ENV_FILE='.env.dev';
         else
-          export ENV_FILE='.env'
+          export ENV_FILE='.env';
         fi
-        echo 'using file '${ENV_FILE}' as variable file...'
+        echo 'using file '${ENV_FILE}' as variable file...';
         .
   tags: 
     - shell
