@@ -16,6 +16,7 @@ auth:
   stage: deploy
   script:
     - echo 'using file '${ENV_FILE}' as variable file...'
+    - . ${ENV_FILE}
     - echo "Starting authentication services..."
     - ls -lart
     - docker-compose -f ./keycloak/auth-dev.yml --env-file=${ENV_FILE} up
