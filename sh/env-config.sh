@@ -15,7 +15,6 @@ function create_config_if_needed() {
   fi
   echo "exporting config file "${cfg_file_path};
   export CONFIG_FILE=${cfg_file_path};
-  shift;
 }
 ### append service configuration to global configuration
 #$1 : configuration file to append
@@ -24,7 +23,6 @@ put_config() {
   echo "service file "${svc_cfg_file};
   echo "global config file" ${CONFIG_FILE};
   cat ${svc_cfg_file} >> ${CONFIG_FILE}
-  shift;
 }
 ### function that handle copying service config to global config
 ### $1 : Service name
@@ -49,5 +47,4 @@ function copy_config() {
   fi
   # return to base folder
   cd -;
-  shift;
 }
