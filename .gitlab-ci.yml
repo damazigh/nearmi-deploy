@@ -5,11 +5,10 @@ env:
   script:
     - >
         if [[ -z "${TARGET_ENV}" || "dev" == "${TARGET_ENV}" ]]
-          then 
-            export ENV_FILE='.env.dev';
+          then; export ENV_FILE='.env.dev';
         else
-          then export ENV_FILE='.env'
-        elif
+          then; export ENV_FILE='.env'
+        fi
         echo 'using env file '${ENV_FILE}
         .
   tags: 
