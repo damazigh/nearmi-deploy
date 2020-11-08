@@ -15,8 +15,6 @@ env:
         copy_config 'Authentication' ${ENV_FILE} 'keycloak/';
   tags: 
     - shell
-  artifacts:
-    - ./config
 auth:
   stage: deploy
   script:
