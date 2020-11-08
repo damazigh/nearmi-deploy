@@ -6,7 +6,7 @@
 ### function that creates config
 ### check if file exits if not create it and add 'x' privilege on it
 function create_config_if_needed() {
-  cfg_file_path="../config";
+  cfg_file_path="/tmp/config";
   if [[ ! -f ${cfg_file_path} ]];
     then echo "file not found "$cfg_file_path" - creating it ...";
          touch ${cfg_file_path};
