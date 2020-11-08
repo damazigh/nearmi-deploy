@@ -19,10 +19,9 @@ auth:
   stage: deploy
   script:
     - echo 'using file '/tmp/config' as variable file...'
-    - . /tmp/config
     - echo "Starting authentication services..."
     - ls -lart
-    - docker-compose -f ./keycloak/auth-dev.yml --env-file=./config up
+    - docker-compose -f ./keycloak/auth-dev.yml --env-file=/tmp/config up
   tags:
     - shell
 clear:
