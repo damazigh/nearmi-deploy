@@ -6,13 +6,13 @@ env:
     - >
         echo ${TARGET_ENV}
         .
-  tag: shell
+  tags: shell
 auth:
   stage: deploy
   script:
     - echo "Starting authentication services..."
     - ls -lart
     - docker-compose -f ./keycloak/auth-dev.yml up
-  tag: shell
+  tags: shell
     
   
