@@ -13,6 +13,8 @@ function create_config_if_needed() {
          ls -lart
          ls -lart ..
          chmod +x ${cfg_file_path};
+    else
+	    echo "" >> ${cfg_file_path};
   fi
   echo "exporting config file "${cfg_file_path};
   export CONFIG_FILE=${cfg_file_path};
