@@ -10,6 +10,8 @@ function create_config_if_needed() {
   if [[ ! -f ${cfg_file_path} ]];
     then echo "file not found "$cfg_file_path" - creating it ...";
          touch ${cfg_file_path};
+         ls -lart
+         ls -lart ..
          chmod +x ${cfg_file_path};
   fi
   echo "exporting config file "${cfg_file_path};
