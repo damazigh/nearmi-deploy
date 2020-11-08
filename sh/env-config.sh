@@ -10,8 +10,10 @@ function create_config_if_needed() {
   if [[ ! -f ${cfg_file_path} ]];
     then echo "file not found "$cfg_file_path" - creating it ...";
          touch ${cfg_file_path};
+         ls 
          chmod +x ${cfg_file_path};
   fi
+  echo "exporting config file "${cfg_file_path};
   export CONFIG_FILE=${cfg_file_path};
   shift;
 }
@@ -40,7 +42,9 @@ function copy_config() {
     then echo "file '"${file}"' doesn't exists";
     exit -1;
   else
+    echo "create file if not exist...";
     create_config_if_needed;
+    echo "append configuration";
     put_config ${file};
   fi
   # return to base folder
