@@ -17,13 +17,15 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nexus
+  namespace: dev-tool
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:  
   rules:
-    - http:
+    - host: "ingress.nearmi"
+      http:
         paths:
-          - path: /repo
+          - path: /repo(/|$)(.*)
             pathType: Prefix
             backend:
               service:
