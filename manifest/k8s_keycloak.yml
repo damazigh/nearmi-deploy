@@ -11,8 +11,8 @@ metadata:
   labels:
     app: keycloak
 data:
-  KEYCLOAK_USER: YWRtaW4
-  KEYCLOAK_PASSWORD_TOKEN: YWRtaW4
+  KEYCLOAK_USER: YWRtaW4K
+  KEYCLOAK_PASSWORD: YWRtaW4K
 ---
 apiVersion: v1
 data:
