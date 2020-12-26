@@ -1,0 +1,13 @@
+<VirtualHost *:#PORT#>|
+  SSLEngine on|
+  SSLCertificateFile      /etc/ssl/certs/apache.crt|
+  SSLCertificateKeyFile /etc/ssl/private/apache.key|
+
+  RequestHeader set X-Forwarded-Host #HOST#|
+  RequestHeader set X-Forwarded-Proto https|
+
+  ServerName "#HOST#"|
+  ProxyPreserveHost On|
+  ProxyPass /  http://ingress.nearmi/repo/|
+  ProxyPassReverse / http://ingress.nearmi/repo/|
+</VirtualHost>|
