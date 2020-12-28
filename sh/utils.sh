@@ -60,10 +60,10 @@ function ask_yn() {
 	exit -1
   else
 	while true; do
-	read -p "${q}" yn
+	read -p "${q} " yn
 	  case $yn in
 		[Yy]* ) echo 1; break;;
-		[Nn]* ) echo 0;;
+		[Nn]* ) echo 0;break;;
 		* ) echo "Please answer yes or no.";;
 	  esac
 	done

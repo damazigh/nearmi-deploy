@@ -1,0 +1,8 @@
+# apache 2 configuration
+APACHE_PKG_NAME=apache2
+APACHE_DIR=/etc/apache2
+APACHE_SSL_CONF_FILE=/etc/apache2/mods-enabled/ssl.conf
+APACHE_HEADER_LOAD_FILE=/etc/apache2/mods-enabled/headers.load
+APACHE_PROXY_LOAD_FILE=/etc/apache2/mods-enabled/proxy.load
+APACHE_AV_SITE_DIR=/etc/apache2/sites-available
+APACHE_AV_CONF_DIR=/etc/apache2/conf-available

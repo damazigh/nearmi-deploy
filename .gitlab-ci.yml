@@ -4,16 +4,16 @@ env:
   stage: .pre
   script:
     - |
-        ### include env shell
-        . ./sh/env-config.sh;
-        ### MAIN Config shell
-        if [[ -z "${TARGET_ENV}" || "dev" = ${TARGET_ENV} || "DEV" = "${TARGET_ENV}" ]];
-          then export ENV_FILE='.env.dev';
-        else
-          export ENV_FILE='.env';
-        fi
-        copy_config 'Authentication' ${ENV_FILE} 'keycloak/';
-  tags: 
+      ### include env shell
+      . ./sh/env-config.sh;
+      ### MAIN Config shell
+      if [[ -z "${TARGET_ENV}" || "dev" = ${TARGET_ENV} || "DEV" = "${TARGET_ENV}" ]];
+        then export ENV_FILE='.env.dev';
+      else
+        export ENV_FILE='.env';
+      fi
+      copy_config 'Authentication' ${ENV_FILE} 'keycloak/';
+  tags:
     - shell
 auth:
   stage: deploy
@@ -28,4 +28,3 @@ clear:
   stage: .post
   script:
     - rm -f /tmp/config
-  

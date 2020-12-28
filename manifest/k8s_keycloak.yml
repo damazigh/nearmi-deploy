@@ -16,24 +16,24 @@ data:
 ---
 apiVersion: v1
 data:
-   PROXY_ADDRESS_FORWARDING: "true"
+  PROXY_ADDRESS_FORWARDING: 'true'
 kind: ConfigMap
 metadata:
   labels:
     app: keycloak
   name: keycloak-config
-  namespace:  nearmi
+  namespace: nearmi
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: keycloak
-  namespace:  nearmi
+  namespace: nearmi
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-    - host: "ingress.nearmi"
+    - host: 'ingress.nearmi'
       http:
         paths:
           - path: /keycloak(/|$)(.*)
@@ -53,9 +53,9 @@ metadata:
     app: keycloak
 spec:
   ports:
-  - name: http
-    port: 8080
-    targetPort: 8080
+    - name: http
+      port: 8080
+      targetPort: 8080
   selector:
     app: keycloak
 ---
@@ -63,7 +63,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: keycloak
-  namespace:  nearmi
+  namespace: nearmi
   labels:
     app: keycloak
 spec:

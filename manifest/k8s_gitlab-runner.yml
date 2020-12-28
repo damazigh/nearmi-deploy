@@ -5,30 +5,30 @@ metadata:
 ---
 apiVersion: v1
 data:
-  REGISTER_NON_INTERACTIVE: "true"
-  REGISTER_LOCKED: "false"
-  CI_SERVER_URL: "https://gitlab.com/ci"
-  METRICS_SERVER: "0.0.0.0:9100"
-  RUNNER_REQUEST_CONCURRENCY: "1"
-  RUNNER_EXECUTOR: "kubernetes"
-  KUBERNETES_NAMESPACE: "gitlab-runner"
-  KUBERNETES_PRIVILEGED: "true"
-  KUBERNETES_CPU_REQUEST: "250m"
-  KUBERNETES_MEMORY_REQUEST: "256Mi"
-  KUBERNETES_CPU_LIMIT: "1"
-  KUBERNETES_MEMORY_LIMIT: "512Mi"
-  KUBERNETES_SERVICE_CPU_REQUEST: "150m"
-  KUBERNETES_SERVICE_MEMORY_REQUEST: "256Mi"
-  KUBERNETES_SERVICE_CPU_LIMIT: "1"
-  KUBERNETES_SERVICE_MEMORY_LIMIT: "1Gi"
-  KUBERNETES_HELPER_CPU_REQUEST: "150m"
-  KUBERNETES_HELPER_MEMORY_REQUEST: "100Mi"
-  KUBERNETES_HELPER_CPU_LIMIT: "500m"
-  KUBERNETES_HELPER_MEMORY_LIMIT: "200Mi"
-  KUBERNETES_PULL_POLICY: "if-not-present"
-  KUBERNETES_TERMINATIONGRACEPERIODSECONDS: "10"
-  KUBERNETES_POLL_INTERVAL: "5"
-  KUBERNETES_POLL_TIMEOUT: "360"
+  REGISTER_NON_INTERACTIVE: 'true'
+  REGISTER_LOCKED: 'false'
+  CI_SERVER_URL: 'https://gitlab.com/ci'
+  METRICS_SERVER: '0.0.0.0:9100'
+  RUNNER_REQUEST_CONCURRENCY: '1'
+  RUNNER_EXECUTOR: 'kubernetes'
+  KUBERNETES_NAMESPACE: 'gitlab-runner'
+  KUBERNETES_PRIVILEGED: 'true'
+  KUBERNETES_CPU_REQUEST: '250m'
+  KUBERNETES_MEMORY_REQUEST: '256Mi'
+  KUBERNETES_CPU_LIMIT: '1'
+  KUBERNETES_MEMORY_LIMIT: '512Mi'
+  KUBERNETES_SERVICE_CPU_REQUEST: '150m'
+  KUBERNETES_SERVICE_MEMORY_REQUEST: '256Mi'
+  KUBERNETES_SERVICE_CPU_LIMIT: '1'
+  KUBERNETES_SERVICE_MEMORY_LIMIT: '1Gi'
+  KUBERNETES_HELPER_CPU_REQUEST: '150m'
+  KUBERNETES_HELPER_MEMORY_REQUEST: '100Mi'
+  KUBERNETES_HELPER_CPU_LIMIT: '500m'
+  KUBERNETES_HELPER_MEMORY_LIMIT: '200Mi'
+  KUBERNETES_PULL_POLICY: 'if-not-present'
+  KUBERNETES_TERMINATIONGRACEPERIODSECONDS: '10'
+  KUBERNETES_POLL_INTERVAL: '5'
+  KUBERNETES_POLL_TIMEOUT: '360'
 kind: ConfigMap
 metadata:
   labels:
@@ -84,9 +84,9 @@ metadata:
   namespace: gitlab-runner
   name: gitlab-ci
 rules:
-  - apiGroups: [""]
-    resources: ["*"]
-    verbs: ["*"]
+  - apiGroups: ['']
+    resources: ['*']
+    verbs: ['*']
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -116,7 +116,7 @@ spec:
   serviceName: gitlab-ci-runner
   selector:
     matchLabels:
-        app: gitlab-ci-runner
+      app: gitlab-ci-runner
   template:
     metadata:
       labels:
@@ -125,43 +125,43 @@ spec:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-            - topologyKey: "kubernetes.io/hostname"
-      serviceAccountName: gitlab-ci 
+            - topologyKey: 'kubernetes.io/hostname'
+      serviceAccountName: gitlab-ci
       volumes:
-      - name: gitlab-ci-runner-scripts
-        projected:
-          sources:
-          - configMap:
-              name: gitlab-ci-runner-scripts
-              items:
-              - key: run.sh
-                path: run.sh
-                mode: 0755
+        - name: gitlab-ci-runner-scripts
+          projected:
+            sources:
+              - configMap:
+                  name: gitlab-ci-runner-scripts
+                  items:
+                    - key: run.sh
+                      path: run.sh
+                      mode: 0755
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
         supplementalGroups: [999]
-      containers:   
-      - image: gitlab/gitlab-runner:v12.6.0
-        name: gitlab-ci-runner
-        command:
-        - /scripts/run.sh
-        envFrom:
-        - configMapRef:
-            name: gitlab-ci-runner-cm
-        - secretRef:
-            name: gitlab-ci-token
-        env:
-        - name: RUNNER_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        ports:
-        - containerPort: 9100
-          name: http-metrics
-          protocol: TCP
-        volumeMounts:
-        - name: gitlab-ci-runner-scripts
-          mountPath: "/scripts"
-          readOnly: true
+      containers:
+        - image: gitlab/gitlab-runner:v12.6.0
+          name: gitlab-ci-runner
+          command:
+            - /scripts/run.sh
+          envFrom:
+            - configMapRef:
+                name: gitlab-ci-runner-cm
+            - secretRef:
+                name: gitlab-ci-token
+          env:
+            - name: RUNNER_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          ports:
+            - containerPort: 9100
+              name: http-metrics
+              protocol: TCP
+          volumeMounts:
+            - name: gitlab-ci-runner-scripts
+              mountPath: '/scripts'
+              readOnly: true
       restartPolicy: Always
