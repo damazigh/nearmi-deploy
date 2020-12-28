@@ -6,3 +6,6 @@ APACHE_HEADER_LOAD_FILE=/etc/apache2/mods-enabled/headers.load
 APACHE_PROXY_LOAD_FILE=/etc/apache2/mods-enabled/proxy.load
 APACHE_AV_SITE_DIR=/etc/apache2/sites-available
 APACHE_AV_CONF_DIR=/etc/apache2/conf-available
+# fail2ban configuration
+FAIL2BAN_DIR=/etc/fail2ban
+FAIL2BAN_CONF_FILE=/etc/fail2ban/jail.local

@@ -8,7 +8,7 @@
 function install_apache2() {
   if [ ! -d "${APACHE_DIR}" ];
   then
-    log "warn" "apache 2 not installed - trying to install it"
+    log "info" "apache 2 not installed - trying to install it"
     apt install -y ${APACHE_PKG_NAME}
 	log "info" "apache 2 installed with success"
   else 
