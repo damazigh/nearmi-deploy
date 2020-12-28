@@ -1,6 +1,6 @@
 #####=============================================#####
-#####======   Script that sets master node  ======#####
-#####============================================="####
+#####======   Script that commons features  ======#####
+#####=============================================#####
 # author : a.djebarri
 . ./utils.sh
 function install_fail2ban() {
@@ -36,7 +36,7 @@ EOF
   fi
 }
 
-function setup_common() {
+function setup_commons() {
   # fail2ban
   install_fail2ban
   configure_fail2ban

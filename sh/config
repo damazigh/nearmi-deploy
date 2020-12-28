@@ -9,3 +9,8 @@ APACHE_AV_CONF_DIR=/etc/apache2/conf-available
 # fail2ban configuration
 FAIL2BAN_DIR=/etc/fail2ban
 FAIL2BAN_CONF_FILE=/etc/fail2ban/jail.local
+# kubernetes configuration
+K8S_POD_NETWORK_CIDR=192.168.0.0/24
+K8S_CLUSTER_TYPE=dev
+K8S_MASTER_USER=k8s
+K8S_MASTER_GROUP=k8s

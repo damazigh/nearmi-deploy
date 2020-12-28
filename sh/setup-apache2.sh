@@ -1,6 +1,6 @@
 #####=============================================#####
-#####======   Script that sets master node  ======#####
-#####============================================="####
+#####=  Script that sets apache as reverse proxy =#####
+#####=============================================#####
 # author : a.djebarri
 # Load utils function
 . ./utils.sh
