@@ -33,7 +33,11 @@ function install_k8s() {
   curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -;
   echo 'deb https://apt.kubernetes.io/ kubernetes-xenial main' > /etc/apt/sources.list.d/kubernetes.list;
   apt update;
-  apt install -y kubelet kubeadm kubectl;
+  apt install -y kubelet="${K8S_VERSION}" kubeadm="${K8S_VERSION}"
+  if [ $1 = "master" ];
+  then
+    apt install -y kubectl="${K8S_VERSION}"
+  fi
 }
 
 
@@ -62,7 +66,7 @@ function setup_k8s() {
   hostname=$2
   prepare_env ${hostname}
   install_tools
-  install_k8s
+  install_k8s ${type}
   if [ ${type} = "master" ];
   then
     log "info" "node is designed as master node, init..."
