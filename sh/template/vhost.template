@@ -9,6 +9,12 @@
   
   ServerName "#HOST#"
   ProxyPreserveHost Off
-  ProxyPass /  http://ingress.nearmi/repo/
-  ProxyPassReverse / http://ingress.nearmi/repo/
+
+  <Location "/repo">
+    ProxyPass http://#NGINX_HOST#/repo
+    ProxyPassReverse http://#NGINX_HOST#/repo
+  </Location>
+
+  ProxyPass /  http://#NGINX_HOST#/incity/
+  ProxyPassReverse / http://#NGINX_HOST#/incity/
 </VirtualHost>

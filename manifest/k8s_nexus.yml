@@ -6,6 +6,7 @@ metadata:
 apiVersion: v1
 data:
   INSTALL4J_ADD_VM_PARAMS: '-Xms256m -Xmx512m -XX:MaxDirectMemorySize=512m'
+  NEXUS_CONTEXT: 'repo'
 kind: ConfigMap
 metadata:
   labels:
@@ -18,8 +19,6 @@ kind: Ingress
 metadata:
   name: nexus
   namespace: dev-tool
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
     - host: 'ingress.nearmi'
@@ -76,5 +75,5 @@ spec:
               containerPort: 8081
           readinessProbe:
             httpGet:
-              path: /
+              path: /repo
               port: 8081

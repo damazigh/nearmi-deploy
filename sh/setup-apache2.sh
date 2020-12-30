@@ -86,7 +86,8 @@ function configure_vhost() {
    touch "${APACHE_AV_SITE_DIR}/nearmi.conf"
    cat ./template/vhost.template > "${APACHE_AV_SITE_DIR}/nearmi.conf"
    replace "#PORT#" "${APACHE_AV_SITE_DIR}/nearmi.conf" 443
-   replace "#HOST#" "${APACHE_AV_SITE_DIR}/nearmi.conf" "cluster.nearmi-dev"
+   replace "#HOST#" "${APACHE_AV_SITE_DIR}/nearmi.conf" "${APACHE_RV_HOST}"
+   replace "#NGINX_HOST#" "${APACHE_AV_SITE_DIR}/nearmi.conf" "${INGRESS_RV_HOST}"
    a2ensite nearmi
   else
     log "info" "ssl vhosh should be already configured"
@@ -99,6 +100,7 @@ function setup_apache() {
   install_mod "${APACHE_SSL_CONF_FILE}" "ssl" 
   install_mod "${APACHE_HEADER_LOAD_FILE}" "headers"
   install_mod "${APACHE_PROXY_LOAD_FILE}" "proxy"
+  install_mod "${APACHE_PROXY_HTTP_LOAD_FILE}" "proxy_http"
   configure_ssl
   configure_vhost
 }

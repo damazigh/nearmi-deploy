@@ -1,2 +1,7 @@
 - scripter la configuration du fichier /etc/hosts
-- scripter la resource calico pour le cni
+- scripter la ressource calico pour le cni
+- scripter la resource ingress
+- mettre un check sur le dns (lancer un dnsutils et faire nslookup sur gitlab)
+- ajouter automatiquement ingress.nearmi dans le fichier host et faire pointer 
+  sur l'ip du cluster 1
+- scripter la récupération du node service (nginx ingress)

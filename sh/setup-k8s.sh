@@ -25,7 +25,8 @@ function install_tools() {
   apt-transport-https \
   ca-certificates \
   curl \
-  gnupg2
+  gnupg2 \
+  dnsutils
 }
 
 function install_k8s() {
@@ -41,13 +42,13 @@ function init_master_node() {
   if [ ${K8S_CLUSTER_TYPE} -eq "dev" ];
   then
     log "info" "dev cluster ignoring cpu preflight check"
-    opts="--ignore-preflight-errors=NumCPU"
+    set opts "--ignore-preflight-errors=NumCPU"
   fi
   if id "${K8S_MASTER_USER}" &>/dev/null; then
     log "info" "user exists (assuming group : ${K8S_MASTER_GROUP} exists too)"
   else
     log "info" "user doesn't exist creating user ${K8S_MASTER_USER} and group ${K8S_MASTER_GROUP}"
-    add -m "${K8S_MASTER_USER}" -s /bin/bash;
+    useradd -m "${K8S_MASTER_USER}" -s /bin/bash;
     usermod -aG "sudo" "${K8S_MASTER_GROUP}";
     log "info" "user created, please set user : ${K8S_MASTER_USER} password"
     passwd ${K8S_MASTER_USER}

@@ -4,6 +4,7 @@ APACHE_DIR=/etc/apache2
 APACHE_SSL_CONF_FILE=/etc/apache2/mods-enabled/ssl.conf
 APACHE_HEADER_LOAD_FILE=/etc/apache2/mods-enabled/headers.load
 APACHE_PROXY_LOAD_FILE=/etc/apache2/mods-enabled/proxy.load
+APACHE_PROXY_HTTP_LOAD_FILE=/etc/apache2/mods-enabled/proxy-http.load
 APACHE_AV_SITE_DIR=/etc/apache2/sites-available
 APACHE_AV_CONF_DIR=/etc/apache2/conf-available
 # fail2ban configuration
@@ -14,3 +15,6 @@ K8S_POD_NETWORK_CIDR=192.168.0.0/24
 K8S_CLUSTER_TYPE=dev
 K8S_MASTER_USER=k8s
 K8S_MASTER_GROUP=k8s
+# reverse proxies (apache and nginx)
+INGRESS_RV_HOST=ingress.nearmi
+APACHE_RV_HOST=cluster.nearmi-dev
