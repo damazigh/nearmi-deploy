@@ -12,7 +12,7 @@ install_srv_nfs() {
     for i in "${ips[@]}"
     do
       : 
-      nfs_cmd="${nfs_cmd} ${ips[i]}(rw,sync,no_subtree_check)"
+      nfs_cmd="${nfs_cmd} ${ips[i]}(rw,sync,no_subtree_check,no_root_squash)"
     done
     service nfs-kernel-server restart
     log "info" "nfs dir : ${NFS_SHARED_DIR} exposed with success to configured servers"
