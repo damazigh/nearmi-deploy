@@ -108,3 +108,14 @@ function insert_at() {
 	sed -i "s/${sep}/\n/g" ${f}
   fi
 }
+#function that install Calicoctl 
+function install_calicoctl() {
+ cd /usr/local/bin/
+ curl -O -L  https://github.com/projectcalico/calicoctl/releases/download/v3.17.1/calicoctl /usr/local/bin/
+ chmod +x calicoctl
+}
+#function that install network utils
+function install_net_utils() {
+ apt-get install tcpdump
+ apt-get install telnet
+}
