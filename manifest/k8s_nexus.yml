@@ -24,13 +24,44 @@ spec:
     - host: 'ingress.nearmi'
       http:
         paths:
-          - path: /repo(/|$)(.*)
+          - path: /repo
             pathType: Prefix
             backend:
               service:
                 name: nexus
                 port:
                   number: 8081
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nexus-pv
+  namespace: dev-tool
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  storageClassName: nexus-data
+  nfs:
+    path: /srv/nexus_data
+    server: 51.77.144.88
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nexus-pvc
+  namespace: dev-tool
+spec:
+  storageClassName: nexus-data
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
 ---
 apiVersion: v1
 kind: Service
@@ -73,7 +104,16 @@ spec:
           ports:
             - name: http
               containerPort: 8081
+          volumeMounts:
+            - mountPath: /nexus-data
+              name: nexus-data
           readinessProbe:
             httpGet:
               path: /repo
               port: 8081
+      volumes:
+        - name: nexus-data
+          persistentVolumeClaim:
+            claimName: nexus-pvc
+---
+

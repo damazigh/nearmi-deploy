@@ -1,3 +1,7 @@
+#####=============================================#####
+#####====== Script that mount nfs srv/client =====#####
+#####=============================================#####
+# author : a.djebarri
 . utils.sh
 install_srv_nfs() {
     log "info" "install nfs-kernel-server"
@@ -6,6 +10,7 @@ install_srv_nfs() {
     then
       log "info" "creating nfs shared directory (${NFS_SHARED_DIR})"
       mkdir "${NFS_SHARED_DIR}"
+      chmod 777 "${NFS_SHARED_DIR}"
     fi
     readarray -td, a <<<"${NFS_AUTHORIZED_IPS},"; declare -p a;
     nfs_cmd="${NFS_SHARED_DIR}"
@@ -37,7 +42,14 @@ function setup_nfs() {
       install_srv_nfs
     elif [ ${type} = "worker" ];
     then
-      mount_nfs
+      log "warn" "This is for tests purpose only !!"
+      res=ask_yn "this will mount the volume at your mount directory, are you sure you want continue ? y/n"
+      if [ ${res} -eq 1 ];
+      then
+        mount_nfs
+      else
+        log "info" "you awnsered no - nfs not mounted"
+      fi
     else 
       log "error" "type must be 'master' or 'worker'"
       exit -1
