@@ -43,7 +43,7 @@ function setup_nfs() {
     elif [ ${type} = "worker" ];
     then
       log "warn" "This is for tests purpose only !!"
-      res=ask_yn "this will mount the volume at your mount directory, are you sure you want continue ? y/n"
+      res=`ask_yn "this will mount the volume at your mount directory, are you sure you want continue ? y/n"`
       if [ ${res} -eq 1 ];
       then
         mount_nfs
