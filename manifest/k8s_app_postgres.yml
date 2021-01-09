@@ -47,6 +47,21 @@ spec:
     requests:
       storage: 5Gi
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-svc
+  namespace: nearmi
+  labels:
+    app: postgres
+spec:
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  selector:
+    app: postgres
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
