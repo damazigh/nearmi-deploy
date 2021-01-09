@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nearmi
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-front
+  namespace: nearmi
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - host: 'ingress.nearmi'
+      http:
+        paths:
+          - path: /app(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: api-front-svc
+                port:
+                  number: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-front-svc
+  namespace: nearmi
+  labels:
+    app: app-front
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: app-front
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-front
+  namespace: nearmi
+  labels:
+    app: app-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-front
+  template:
+    metadata:
+      labels:
+        app: app-front
+    spec:
+      hostAliases:
+        - ip: '51.77.144.88'
+          hostnames:
+            - 'nearmi.registry'
+      containers:
+        - name: app-front
+          image: 'nearmi.registry/nearmi/app:0.1.0'
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+      imagePullSecrets:
+        - name: regcred
+---
+

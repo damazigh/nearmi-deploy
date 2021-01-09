@@ -3,8 +3,6 @@ kind: Namespace
 metadata:
   name: nearmi
 ---
-
----
 apiVersion: v1
 data:
   SPRING_PROFILES_ACTIVE: 'dev'
@@ -14,14 +12,6 @@ metadata:
     app: api
   name: api-config
   namespace: nearmi
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: nearmi
-  namespace: nearmi
-data:
-  profile: 'dev'
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

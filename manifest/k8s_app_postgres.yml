@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: nearmi
+  labels:
+    app: postgres
+data:
+  POSTGRES_DB: keycloak
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name:  postgres-secret
+  namespace: nearmi
+data:
+   POSTGRES_PASSWORD:  VmlvdS0tKHwhUm95YU1halJhaXBvbmNlVHRsYW11cjY3ODc4
+   POSTGRES_USER: a2V5Y2xvYWs=
+type: Opaque
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv
+  namespace: nearmi
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  nfs:
+    path: /srv/pg_data
+    server: 51.77.144.88
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: nearmi
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: nearmi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres-db
+        image: postgres:latest
+        envFrom:
+          - configMapRef:
+              name: postgres-config
+          - secretRef:
+              name: postgres-secret
+        ports:
+        volumeMounts:
+          - name:  pgdata
+            mountPath: /var/lib/postgresql/data
+      volumes:
+        - name:  pgdata
+          persistentVolumeClaim:
+            claimName: postgres-pvc

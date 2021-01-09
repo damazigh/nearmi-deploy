@@ -20,7 +20,7 @@ K8S_VERSION=1.19.6-00
 INGRESS_RV_HOST=ingress.nearmi
 APACHE_RV_HOST=cluster.nearmi-dev   
 # nfs
-NFS_SHARED_DIRS=/srv/nexus_data,/srv/cache,/srv/config
+NFS_SHARED_DIRS=/srv/nexus_data,/srv/cache,/srv/config,/srv/pg_data
 NFS_MOUNTED_DIR=/mnt/nexus_data
 NFS_AUTHORIZED_IPS=146.59.237.14,51.77.223.186,51.77.220.48
 NFS_EXPOSING_NODE=master-node #can be an ip address
