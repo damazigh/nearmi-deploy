@@ -6,21 +6,27 @@
 install_srv_nfs() {
     log "info" "install nfs-kernel-server"
     apt install -y nfs-kernel-server
-    if [ ! -d "${NFS_SHARED_DIR}" ];
-    then
-      log "info" "creating nfs shared directory (${NFS_SHARED_DIR})"
-      mkdir "${NFS_SHARED_DIR}"
-      chmod 777 "${NFS_SHARED_DIR}"
-    fi
-    readarray -td, a <<<"${NFS_AUTHORIZED_IPS},"; declare -p a;
-    nfs_cmd="${NFS_SHARED_DIR}"
-    for i in "${ips[@]}"
+    
+    readarray -td, <<<"${NFS_SHARED_DIRS}"; declare -p dirs;
+    for j in "${dirs[@]}"
     do
+    :
+      if [ ! -d "${dirs[j]}" ];
+      then
+        log "info" "creating nfs shared directory (${dirs[j]})"
+        mkdir "${dirs[j]}"
+        chmod 777 "${dirs[j]}"
+      fi
+      readarray -td, a <<<"${NFS_AUTHORIZED_IPS},"; declare -p ips;
+      nfs_cmd="${dirs[j]}"
+      for i in "${ips[@]}"
+      do
       : 
-      nfs_cmd="${nfs_cmd} ${ips[i]}(rw,sync,no_subtree_check,no_root_squash)"
+        nfs_cmd="${nfs_cmd} ${ips[i]}(rw,sync,no_subtree_check,no_root_squash)"
+      done
     done
     service nfs-kernel-server restart
-    log "info" "nfs dir : ${NFS_SHARED_DIR} exposed with success to configured servers"
+    log "info" "nfs dir : ${NFS_SHARED_DIRS} exposed with success to configured servers"
 }
 
 function mount_nfs() {

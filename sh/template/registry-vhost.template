@@ -1,0 +1,15 @@
+<VirtualHost *:443>
+  SSLEngine on
+  SSLCertificateFile      #REGISTRY_CERT#
+  SSLCertificateKeyFile   #REGISTRY_KEY#
+
+  RequestHeader set X-Forwarded-Host "#REGISTRY_HOST#"
+  RequestHeader set X-Forwarded-Proto https
+  RequestHeader set X-Forwarded-Port 443
+
+  ServerName "#REGISTRY_HOST#"
+  ProxyPreserveHost Off
+
+  ProxyPass /  http://#NGINX_HOST#/repo/repository/docker-mi/
+  ProxyPassReverse / http://#NGINX_HOST#/repo/repository/docker-mi/
+</VirtualHost>

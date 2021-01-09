@@ -1,19 +1,29 @@
 <VirtualHost *:#PORT#>
   SSLEngine on
-  SSLCertificateFile      /etc/ssl/certs/apache.crt
-  SSLCertificateKeyFile /etc/ssl/private/apache.key
+  SSLCertificateFile      #CLUSTER_CERT#
+  SSLCertificateKeyFile   #CLUSTER_KEY#
   
   RequestHeader set X-Forwarded-Host #HOST#
   RequestHeader set X-Forwarded-Proto https
   RequestHeader set X-Forwarded-Port #PORT#
   
-  ServerName "#HOST#"
+  ServerName "#CLUSTER_HOST#"
   ProxyPreserveHost Off
 
   <Location "/repo">
     ProxyPass http://#NGINX_HOST#/repo
     ProxyPassReverse http://#NGINX_HOST#/repo
   </Location>
+
+  <Location "/auth">
+    ProxyPass http://#NGINX_HOST#/keycloak/auth
+    ProxyPassReverse http://#NGINX_HOST#/keycloak/auth
+  </Location>
+  <Location "/api">
+    ProxyPass http://#NGINX_HOST#/api
+    ProxyPassReverse http://#NGINX_HOST#/api
+  </Location>
+
 
   ProxyPass /  http://#NGINX_HOST#/incity/
   ProxyPassReverse / http://#NGINX_HOST#/incity/

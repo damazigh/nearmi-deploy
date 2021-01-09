@@ -4,10 +4,10 @@
 # author : a.djebarri
 . ./utils.sh
 function install_fail2ban() {
-  if [ ! -d ${FAIL2BAN_DIR} ];
+  if [ ! -d "${FAIL2BAN_DIR}" ];
     then
     log "info" "fail2ban not installed trying to install it"
-    apt install -y FAIL2BAN_DIR
+    apt install -y fail2ban
     log "info" "fail2ban not installed trying to install it"
   else
     log "info" "fail2ban already installed"

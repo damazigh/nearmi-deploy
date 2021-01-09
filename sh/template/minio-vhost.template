@@ -1,0 +1,16 @@
+<VirtualHost *:443>
+  SSLEngine on
+  SSLCertificateFile      #CACHE_CERT#
+  SSLCertificateKeyFile   #CACHE_KEY#
+
+  RequestHeader set X-Forwarded-Host "#CACHE_HOST#"
+  RequestHeader set X-Forwarded-Proto https
+  RequestHeader set X-Forwarded-Port 443
+
+  ServerName "#CACHE_HOST#"
+  ProxyPreserveHost Off
+
+  ProxyPass /  http://#NGINX_HOST#/minio/
+  ProxyPassReverse / http://#NGINX_HOST#/minio/
+</VirtualHost>
+

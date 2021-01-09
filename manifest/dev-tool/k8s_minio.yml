@@ -1,0 +1,124 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev-tool
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minio-access
+  namespace: dev-tool
+  labels:
+    app: minio
+data:
+  MINIO_ACCESS_KEY: bWluaW8=
+  MINIO_SECRET_KEY: QXhoamsjODlkcVhRYzE0NyFfc3g=
+---
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: minio-pv
+  namespace: dev-tool
+spec:
+  capacity:
+    storage: 12Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  nfs:
+    path: /srv/cache
+    server: 51.77.144.88
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minio-pvc
+  namespace: dev-tool
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 12Gi
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio
+  namespace: dev-tool
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+
+spec:
+  rules:
+    - host: 'ingress.nearmi'
+      http:
+        paths:
+          - path: /minio(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: minio
+                port:
+                  number: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+  namespace: dev-tool
+  labels:
+    app: minio
+spec:
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+  selector:
+    app: minio
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: minio
+  namespace: dev-tool
+  labels:
+     app: minio
+spec:
+  selector:
+    matchLabels:
+      app: minio
+  serviceName: minio
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+        - name: minio
+          envFrom:
+            - secretRef:
+                name: minio-access
+          image: minio/minio:latest
+          args:
+            - server
+            - '/data'
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 9000
+          volumeMounts:
+            - name: cache
+              mountPath: /data
+      volumes:
+        - name: cache
+          persistentVolumeClaim:
+            claimName: minio-pvc

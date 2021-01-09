@@ -19,6 +19,9 @@ kind: Ingress
 metadata:
   name: nexus
   namespace: dev-tool
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+
 spec:
   rules:
     - host: 'ingress.nearmi'
@@ -44,7 +47,6 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   volumeMode: Filesystem
-  storageClassName: nexus-data
   nfs:
     path: /srv/nexus_data
     server: 51.77.144.88
@@ -56,12 +58,11 @@ metadata:
   name: nexus-pvc
   namespace: dev-tool
 spec:
-  storageClassName: nexus-data
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 10Gi
 ---
 apiVersion: v1
 kind: Service
