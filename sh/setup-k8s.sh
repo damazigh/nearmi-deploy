@@ -58,8 +58,10 @@ function init_master_node() {
     log "info" "user created, please set user : ${K8S_MASTER_USER} password"
     passwd ${K8S_MASTER_USER}
   fi
-  log "action"  "Please, log to ${K8S_MASTER_USER} and executes the command below:"
-  log "action" "sudo  kubeadm init --pod-network-cidr=${K8S_POD_NETWORK_CIDR} ${opts}"
+  action_1=$(log "action"  "Please, log to ${K8S_MASTER_USER} and executes the command below:")
+  action_2=$(log "action" "sudo  kubeadm init --pod-network-cidr=${K8S_POD_NETWORK_CIDR} ${opts}")
+  add_action "${action_1}"
+  add_action "${action_2}"
 }
 
 function setup_k8s() {

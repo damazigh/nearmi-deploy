@@ -210,3 +210,21 @@ function check_file_exists() {
     exit -1
   fi
 }
+
+function add_action() {
+  action=$1
+  not_empty "${action}" "action"
+  if [ ! -f "/tmp/actions" ];
+  then
+    touch /tmp/actions
+  fi
+  echo "${action}" >> /tmp/actions
+}
+
+function display_actions() {
+  if [ -f "/tmp/action" ]
+  then
+    log 'warn' '/!\ HOLD ON /!\ To complete installation you should perform these actions mannualy'
+    cat /tmp/actions
+  fi
+}

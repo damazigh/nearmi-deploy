@@ -8,6 +8,7 @@ source ./setup-commons.sh
 source ./setup-nfs.sh
 source ./setup-k8s.sh
 source ./setup-apache2.sh
+rm /tmp/actions
 
 type=$1
 hostname=$2
