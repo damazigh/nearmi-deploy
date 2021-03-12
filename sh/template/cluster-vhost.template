@@ -7,7 +7,7 @@
   RequestHeader set X-Forwarded-Proto https
   RequestHeader set X-Forwarded-Port #PORT#
   
-  ServerName "#CLUSTER_HOST#"
+  ServerName #HOST#
   ProxyPreserveHost Off
 
   <Location "/repo">

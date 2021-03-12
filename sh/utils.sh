@@ -5,7 +5,29 @@
 # author: a.djebarri
 # logging function
 function log() {
+  RED='\033[0;31m' # red
+  NC='\033[0m' # No Color
+  GREEN='\033[0;32m' # green
+  YELLOW='\033[0;33m' # yellow
+  CYAN='\033[0;36m' # cyan
+  
+  
+  COLOR="${NC}"
   LEVEL=$1
+  if [ "${LEVEL}" = 'error' ];
+  then
+    COLOR="${RED}"
+  elif [ "${LEVEL}" = 'success' ];
+  then
+    COLOR="${GREEN}"
+  elif [ "${LEVEL}" = 'warn' ];
+  then
+    COLOR="${YELLOW}"
+  elif [ "${LEVEL}" = 'action' ];
+  then
+    COLOR="${CYAN}"
+  fi
+
   shift
   CONTENT=$@
   if [ ! -f ${LOG_FILE} ] || [ -z ${LOG_FILE} ];
@@ -24,10 +46,11 @@ function log() {
   then
 	LEVEL="info"
   fi
-  > ${LOG_FILE}
   msg="[${LEVEL}][`date`] - ${CONTENT}"
-  echo ${msg}
-  echo ${msg} >> ${LOG_FILE}
+  echo -e "${COLOR}${msg}"
+  echo -e "${COLOR}${msg}" >> ${LOG_FILE}
+  echo -e "${NC}"
+  
 }
 # replace given key in file with a value
 # $1 = key, $2 = template file, $3 = new value
@@ -36,17 +59,23 @@ function replace() {
   key=$1
   template=$2
   newval=$3
+  sep='/'
+  if [ ! -z $4 ];
+  then
+    sep=$4
+  fi
+
   if [ -z ${key} ];
   then
-	log "warn" "cannot replace empty key"
+	  log "warn" "cannot replace empty key"
   elif [ ! -f ${template} ];
   then
-	log "warn" "given file doesn't exist : ${template}"
+	  log "warn" "given file doesn't exist : ${template}"
   elif [ -z ${newval} ];
   then
-	log "warn" "cannot set empty value for key : ${key}"
+	  log "warn" "cannot set empty value for key : ${key}"
   else
-	sed -i "s/${key}/${newval}/g" ${template}
+	  sed -i "s${sep}${key}${sep}${newval}${sep}g" ${template}
   fi
 }
 
@@ -118,4 +147,66 @@ function install_calicoctl() {
 function install_net_utils() {
  apt-get install tcpdump
  apt-get install telnet
+}
+
+function not_empty() {
+  value=$1
+  name=$2
+
+  if [ -z "${name}" ];
+  then
+    log 'error' 'parameter name could not be empty'
+    exit -1
+  fi
+
+  if [ -z "${value}" ]
+  then
+    log 'error' "Missing parameter : ${name}"
+    exit -1
+  fi
+}
+
+function verify_pckg_installed() {
+  pckg=$1
+  not_empty "${pckg}" 'package'
+  status=$(cut -d ':' -f2 <<< $(dpkg -s "${pckg}" | sed -n 2p))
+  if [ -z "${status}" ];
+  then
+    log 'error' "Pacakge : ${pckg} is not installed"
+    exit -1
+  else
+    log 'success' "Package : ${pckg} is installed. Status: ${status}"
+  fi
+}
+
+function install_pckg() {
+  pckg=$1
+  version=$2
+  cmd="${pckg}"
+  not_empty "${pckg}" 'package'
+
+  if [ ! -z "${version}" ]
+  then
+    cmd="${cmd}=${version}"
+  fi
+
+  status=$(cut -d ':' -f2 <<< $(dpkg -s "${pckg}" | sed -n 2p))
+  if [ -z "${status}" ];
+  then
+    apt install -y "${cmd}"
+    verify_pckg_installed "${pckg}"
+  else
+    log 'warn' "Package : ${pckg} alredy installed"
+  fi
+}
+
+function check_file_exists() {
+  file=$1
+  not_empty "${file}" 'file'
+
+  if [ ! -f "${file}" ]
+  then
+    log 'error' "File: ${file} doesn't exist"
+    exit -1
+  fi
 }

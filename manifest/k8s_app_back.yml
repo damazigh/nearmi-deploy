@@ -13,6 +13,35 @@ metadata:
   name: api-config
   namespace: nearmi
 ---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: api-pv
+  namespace: nearmi
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  nfs:
+    path: /srv/data
+    server: 51.77.144.88
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: api-pvc
+  namespace: nearmi
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -100,6 +129,7 @@ spec:
         - ip: '51.77.144.88'
           hostnames:
             - 'nearmi.registry'
+            - 'cluster.nearmi-dev'
       containers:
         - name: api-user
           image: 'nearmi.registry/nearmi/user:0.1.0'
@@ -123,10 +153,17 @@ spec:
           ports:
             - name: http
               containerPort: 8001
+          volumeMounts:
+            - name:  nearmi-data
+              mountPath: /nearmi/data
           readinessProbe:
             httpGet:
-              path: /api/actuator/health
+              path: /api/shop/actuator/health
               port: 8001
+      volumes:
+        - name:  nearmi-data
+          persistentVolumeClaim:
+            claimName: api-pvc
       imagePullSecrets:
         - name: regcred
 ---
