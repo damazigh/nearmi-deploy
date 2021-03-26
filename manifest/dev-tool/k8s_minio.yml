@@ -29,7 +29,7 @@ spec:
   volumeMode: Filesystem
   nfs:
     path: /srv/cache
-    server: 51.77.144.88
+    server: #MANIFEST_IP_MASTER#
     readOnly: false
 ---
 apiVersion: v1
@@ -89,9 +89,6 @@ metadata:
   labels:
      app: minio
 spec:
-  selector:
-    matchLabels:
-      app: minio
   serviceName: minio
   replicas: 1
   selector:

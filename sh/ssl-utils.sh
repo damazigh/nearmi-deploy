@@ -5,12 +5,12 @@
 
 #generate a root certifcate authority certificate
 function generate_rootCA() {
-  openssl genrsa -des3 -out /etc/ssl/private/rootCA.key 4096
-  check_file_exists "/etc/ssl/private/rootCA.key"
-  log 'success' 'root certificate key generated in /etc/ssl/private/rootCA.key'
-  openssl req -x509 -new -nodes -key /etc/ssl/private/rootCA.key -sha256 -days 1024 -out /tmp/rootCA.crt
-  check_file_exists "/tmp/rootCA.crt"
-  mv /tmp/rootCA.crt /usr/local/share/ca-certificates/
+  openssl genrsa -des3 -out "/etc/ssl/private/${ROOT_CA_NAME}.key" 4096
+  check_file_exists "/etc/ssl/private/${ROOT_CA_NAME}.key"
+  log 'success' "root certificate key generated in /etc/ssl/private/${ROOT_CA_NAME}.key"
+  openssl req -x509 -new -nodes -key "/etc/ssl/private/${ROOT_CA_NAME}.key" -sha256 -days 1024 -out "/tmp/${ROOT_CA_NAME}.crt"
+  check_file_exists "/tmp/${ROOT_CA_NAME}.crt"
+  mv "/tmp/${ROOT_CA_NAME}.crt" /usr/local/share/ca-certificates/
   log 'success' 'authority certification generated in /usr/local/share/ca-certificates/'
   update-ca-certificates
 }

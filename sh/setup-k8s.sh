@@ -64,6 +64,19 @@ function init_master_node() {
   add_action "${action_2}"
 }
 
+function open_mandatory_port() {
+  iptables -A INPUT -p tcp --dport 6443 --jump ACCEPT
+  iptables -A INPUT -p tcp --match multiport --dports 2379:2380 -j ACCEPT
+  iptables -A INPUT -p tcp --dport 10250 --jump ACCEPT
+  iptables -A INPUT -p tcp --dport 10251 --jump ACCEPT
+  iptables -A INPUT -p tcp --dport 10252 --jump ACCEPT
+  iptables -A INPUT -p tcp --dport 10255 --jump ACCEPT
+  iptables -A INPUT -p udp --dport 53 --jump ACCEPT
+
+  log 'success' 'mandatory ports for kubernetes opened'
+
+}
+
 function setup_k8s() {
   . ./utils.sh
   . ./config

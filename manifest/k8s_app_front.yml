@@ -56,12 +56,12 @@ spec:
         app: app-front
     spec:
       hostAliases:
-        - ip: '51.77.144.88'
+        - ip: '#MANIFEST_IP_MASTER#'
           hostnames:
-            - 'nearmi.registry'
+            - '#MANIFEST_REGISTRY#'
       containers:
         - name: app-front
-          image: 'nearmi.registry/nearmi/app:0.1.0'
+          image: '#MANIFEST_REGISTRY#/nearmi/app:0.1.0'
           imagePullPolicy: Always
           ports:
             - name: http

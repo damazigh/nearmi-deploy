@@ -228,3 +228,13 @@ function display_actions() {
     cat /tmp/actions
   fi
 }
+
+function ask_for_prerequiste() {
+  statement=$1
+  res=$(ask_yn "${statement}")
+  if [ ! ${res} -eq 1 ]
+  then
+    log 'error' 'A required prerequiste was not performed'
+    exit -1
+  fi
+}

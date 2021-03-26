@@ -7,20 +7,32 @@ APACHE_PROXY_LOAD_FILE=/etc/apache2/mods-enabled/proxy.load
 APACHE_PROXY_HTTP_LOAD_FILE=/etc/apache2/mods-enabled/proxy-http.load
 APACHE_AV_SITE_DIR=/etc/apache2/sites-available
 APACHE_AV_CONF_DIR=/etc/apache2/conf-available
+
 # fail2ban configuration
 FAIL2BAN_DIR=/etc/fail2ban
 FAIL2BAN_CONF_FILE=/etc/fail2ban/jail.local
+
 # kubernetes configuration
 K8S_POD_NETWORK_CIDR=192.168.0.0/24
 K8S_CLUSTER_TYPE=dev
 K8S_MASTER_USER=k8s
 K8S_MASTER_GROUP=k8s
 K8S_VERSION=1.20.0-00
+
 # reverse proxies (apache and nginx)
 INGRESS_RV_HOST=ingress.nearmi
 APACHE_RV_HOST=cluster.nearmi-dev   
+
 # nfs
 NFS_SHARED_DIRS=/srv/nexus_data,/srv/cache,/srv/config,/srv/pg_data,/srv/data
 NFS_MOUNTED_DIR=/mnt/nexus_data
 NFS_AUTHORIZED_IPS=146.59.237.14,51.77.223.186,51.77.220.48
-NFS_EXPOSING_NODE=master-node #can be an ip address
+NFS_EXPOSING_NODE=master-node-new #can be an ip address
+
+# ssl utils
+ROOT_CA_NAME=nmi_root_ca
+
+# manifest section (kuberntes pods)
+MANIFEST_IP_MASTER=146.59.238.89
+MANIFEST_REGISTRY=nearmi.registry
+MANIFEST_CLUSTER_HOST=cluster.nearmi-dev

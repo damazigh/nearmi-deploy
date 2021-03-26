@@ -11,8 +11,8 @@
   ProxyPreserveHost Off
 
   <Location "/repo">
-    ProxyPass http://#NGINX_HOST#/repo
-    ProxyPassReverse http://#NGINX_HOST#/repo
+    ProxyPass http://#NGINX_HOST#/repo/
+    ProxyPassReverse http://#NGINX_HOST#/repo/
   </Location>
 
   <Location "/auth">

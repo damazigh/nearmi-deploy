@@ -27,7 +27,7 @@ spec:
   volumeMode: Filesystem
   nfs:
     path: /srv/data
-    server: 51.77.144.88
+    server: #MANIFEST_IP_MASTER#
     readOnly: false
 ---
 apiVersion: v1
@@ -126,13 +126,13 @@ spec:
         app: api
     spec:
       hostAliases:
-        - ip: '51.77.144.88'
+        - ip: '#MANIFEST_IP_MASTER#'
           hostnames:
-            - 'nearmi.registry'
-            - 'cluster.nearmi-dev'
+            - '#MANIFEST_REGISTRY#'
+            - '#MANIFEST_CLUSTER_HOST#'
       containers:
         - name: api-user
-          image: 'nearmi.registry/nearmi/user:0.1.0'
+          image: '#MANIFEST_REGISTRY#/nearmi/user:0.1.0'
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
@@ -145,7 +145,7 @@ spec:
               path: /api/actuator/health
               port: 8000
         - name: api-shop
-          image: 'nearmi.registry/nearmi/shop:0.1.0'
+          image: '#MANIFEST_REGISTRY#/nearmi/shop:0.1.0'
           imagePullPolicy: Always
           envFrom:
             - configMapRef:

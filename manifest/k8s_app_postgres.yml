@@ -32,7 +32,7 @@ spec:
   volumeMode: Filesystem
   nfs:
     path: /srv/pg_data
-    server: 51.77.144.88
+    server: #MANIFEST_IP_MASTER#
     readOnly: false
 ---
 apiVersion: v1

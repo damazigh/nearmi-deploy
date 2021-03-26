@@ -49,7 +49,7 @@ spec:
   volumeMode: Filesystem
   nfs:
     path: /srv/nexus_data
-    server: 51.77.144.88
+    server: #MANIFEST_IP_MASTER#
     readOnly: false
 ---
 apiVersion: v1
