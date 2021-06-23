@@ -1,3 +1,3 @@
 # nearmi-deploy
 
-dockerization and parametering for deploying application
+prepare cluster by installing required software and configuring them (apache, kubernetes). then configure a kubernetes cluster
